@@ -39,7 +39,7 @@ if [ ! -f $(pwd)/genesis.json ]; then
     exit
 fi
 
-echo "Chrcing for keystore"
+echo "Checking for keystore"
 if [ ! -d $DATA_ROOT/keystore ]; then
     echo "$DATA_ROOT/keystore not found, running 'geth init'..."
     docker run --rm \
@@ -56,4 +56,4 @@ docker run $DETACH_FLAG --name $CONTAINER_NAME \
     -v $DATA_HASH:/root/.ethash \
     -v $(pwd)/genesis.json:/opt/genesis.json \
     $RPC_PORTMAP \
-    $IMGNAME --bootnodes=$BOOTNODE_URL $RPC_ARG --cache=512 --verbosity=4 --maxpeers=3 ${@:2}
+    $IMGNAME --rpc --bootnodes=$BOOTNODE_URL $RPC_ARG --cache=512 --verbosity=4 --maxpeers=3 ${@:2}
