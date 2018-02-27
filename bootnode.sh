@@ -3,7 +3,7 @@
 # Original Code from https://github.com/vertigobr/ethereum
 # Modified for Vuulr needs - http://github.com/vuulr
 #
-# Chris Drumgoole / chris.drumgoole@vuulr.com
+# Chris Drumgoole | chris.drumgoole@vuulr.com | Vuulr.com
 #
 # Runs a bootnode with ethereum official "alltools" image.
 #
