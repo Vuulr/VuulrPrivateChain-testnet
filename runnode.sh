@@ -13,7 +13,7 @@ NODE_NAME=${NODE_NAME:-"node1"}
 DETACH_FLAG=${DETACH_FLAG:-"-d"}
 CONTAINER_NAME="vuulrchain-$NODE_NAME"
 NETWORK="vuulr-ethereum-chain"
-RPC_PORT=8001
+RPC_PORT=8545
 
 DATA_ROOT=${DATA_ROOT:-"$(pwd)/.ether-$NODE_NAME"}
 DATA_HASH=${DATA_HASH:-"$(pwd)/.ethash"}
