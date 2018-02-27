@@ -51,7 +51,7 @@ fi
 
 echo "Running new container $CONTAINER_NAME..."
 docker run $DETACH_FLAG --name $CONTAINER_NAME \
-    --network ethereum \
+    --network $NETWORK \
     -v $DATA_ROOT:/root/.ethereum \
     -v $DATA_HASH:/root/.ethash \
     -v $(pwd)/genesis.json:/opt/genesis.json \
