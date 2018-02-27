@@ -7,7 +7,8 @@
 #
 # Runs a new node with name in command line parameter
 
-IMGNAME="ethereum/client-go:v1.7.3"
+#IMGNAME="ethereum/client-go:v1.7.3"
+IMGNAME="vuulrchain-node"
 NODE_NAME=$1
 NODE_NAME=${NODE_NAME:-"node1"}
 DETACH_FLAG=${DETACH_FLAG:-"-d"}
@@ -49,7 +50,7 @@ if [ ! -d $DATA_ROOT/keystore ]; then
     echo "...done!"
 fi
 
-echo "Running new container $CONTAINER_NAME..."
+echo "Running new container $CONTAINER_NAME with image $IMGNAME..."
 docker run $DETACH_FLAG --name $CONTAINER_NAME \
     --network $NETWORK \
     -v $DATA_ROOT:/root/.ethereum \
@@ -57,3 +58,5 @@ docker run $DETACH_FLAG --name $CONTAINER_NAME \
     -v $(pwd)/genesis.json:/opt/genesis.json \
     $RPC_PORTMAP \
     $IMGNAME --rpc --bootnodes=$BOOTNODE_URL $RPC_ARG --cache=512 --verbosity=4 --maxpeers=3 ${@:2}
+
+docker exec -w /root -ti $CONTAINER_NAME /bin/sh -c "/usr/bin/pm2 start /root/netstats-$NODE_NAME.json"
