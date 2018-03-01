@@ -13,5 +13,5 @@
 
 GEN_NONCE="0xaabaa78274dfdeaa"
 GEN_CHAIN_ID=47271
-GEN_ALLOC='"0x0000000000000000000000000000000000000000": {"balance": "100000000"}'
+GEN_ALLOC='"0x4fA61b525CBAFdb29619697B68b46436256E5408": {"balance": "100000000"}'
 sed "s/\${GEN_NONCE}/$GEN_NONCE/g" src/genesis.json.template | sed "s/\${GEN_ALLOC}/$GEN_ALLOC/g" | sed "s/\${GEN_CHAIN_ID}/$GEN_CHAIN_ID/g" > genesis.json

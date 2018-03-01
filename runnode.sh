@@ -11,7 +11,9 @@
 IMGNAME="vuulrchain-node"
 NODE_NAME=$1
 NODE_NAME=${NODE_NAME:-"node1"}
-WS_SERVER=${WS_SERVER:-"http:\/\/172.22.0.5:3000"}
+
+NETSTATS_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' vuulrchain-netstats)
+WS_SERVER=${WS_SERVER:-"http:\/\/$NETSTATS_IP:3000"}
 
 DETACH_FLAG=${DETACH_FLAG:-"-d"}
 CONTAINER_NAME="vuulrchain-$NODE_NAME"
