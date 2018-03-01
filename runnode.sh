@@ -11,9 +11,13 @@
 IMGNAME="vuulrchain-node"
 NODE_NAME=$1
 NODE_NAME=${NODE_NAME:-"node1"}
+WS_SERVER=$2
+WS_SERVER=${WS_SERVER:-"http:\/\/172.22.0.5:3000"}
+
 DETACH_FLAG=${DETACH_FLAG:-"-d"}
 CONTAINER_NAME="vuulrchain-$NODE_NAME"
 NETWORK="vuulr-ethereum-chain"
+
 #RPC_PORT=8545
 
 DATA_ROOT=${DATA_ROOT:-"$(pwd)/.ether-$NODE_NAME"}
@@ -57,6 +61,8 @@ docker run $DETACH_FLAG --name $CONTAINER_NAME \
     -v $DATA_HASH:/root/.ethash \
     -v $(pwd)/genesis.json:/opt/genesis.json \
     $RPC_PORTMAP \
-    $IMGNAME --rpc --bootnodes=$BOOTNODE_URL $RPC_ARG --cache=512 --verbosity=4 --maxpeers=3 ${@:2}
+    $IMGNAME --rpc --bootnodes=$BOOTNODE_URL $RPC_ARG --cache=512 --verbosity=4 --maxpeers=3 ${@:3}
 
-docker exec -w /root -ti $CONTAINER_NAME /bin/sh -c "/usr/bin/pm2 start /root/netstats-$NODE_NAME.json"
+docker exec -w /root -ti $CONTAINER_NAME /bin/sh -c "sed -i 's/\${WS_SERVER}/$WS_SERVER/g' /root/netstats.json"
+docker exec -w /root -ti $CONTAINER_NAME /bin/sh -c "sed -ie 's/\${NODE_NAME}/$NODE_NAME/g' /root/netstats.json"
+docker exec -w /root -ti $CONTAINER_NAME /bin/sh -c "/usr/bin/pm2 start /root/netstats.json"

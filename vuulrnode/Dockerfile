@@ -9,6 +9,6 @@ RUN git clone https://github.com/cubedro/eth-net-intelligence-api ~/
 RUN cd ~/ && npm install && npm install -g pm2
 COPY src/ /root/
 
-RUN echo "/usr/bin/pm2 start ~/netstats-node1.json" >> /root/run.sh && chmod a+x /root/run.sh
+RUN echo "/usr/bin/pm2 start ~/netstats.json" >> /root/run.sh && chmod a+x /root/run.sh
 
 ENTRYPOINT ["geth"]
