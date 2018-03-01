@@ -11,7 +11,6 @@
 IMGNAME="vuulrchain-node"
 NODE_NAME=$1
 NODE_NAME=${NODE_NAME:-"node1"}
-WS_SERVER=$2
 WS_SERVER=${WS_SERVER:-"http:\/\/172.22.0.5:3000"}
 
 DETACH_FLAG=${DETACH_FLAG:-"-d"}
@@ -61,7 +60,7 @@ docker run $DETACH_FLAG --name $CONTAINER_NAME \
     -v $DATA_HASH:/root/.ethash \
     -v $(pwd)/genesis.json:/opt/genesis.json \
     $RPC_PORTMAP \
-    $IMGNAME --rpc --bootnodes=$BOOTNODE_URL $RPC_ARG --cache=512 --verbosity=4 --maxpeers=3 ${@:3}
+    $IMGNAME --rpc --bootnodes=$BOOTNODE_URL $RPC_ARG --cache=512 --verbosity=4 --maxpeers=3 --networkid=47271 ${@:2}
 
 docker exec -w /root -ti $CONTAINER_NAME /bin/sh -c "sed -i 's/\${WS_SERVER}/$WS_SERVER/g' /root/netstats.json"
 docker exec -w /root -ti $CONTAINER_NAME /bin/sh -c "sed -ie 's/\${NODE_NAME}/$NODE_NAME/g' /root/netstats.json"
