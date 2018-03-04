@@ -25,7 +25,7 @@ docker volume create accounts
 docker run -itd --name $CONTAINER_NAME \
     --mount source=accounts,target=/tmp/accounts \
     --entrypoint "/bin/sh" \
-     ethereum/client-go
+     ethereum/client-go:alltools-stable
 
 # Create the pw file - simple pw for all
 docker exec -w /tmp/accounts -ti $CONTAINER_NAME /bin/sh -c "echo $DEFAULT_PW > /tmp/accounts/password.txt"
@@ -35,8 +35,9 @@ for i in `seq 1 $NODE_COUNT`;
   do
     echo "Making account $i..."
     docker exec -w /tmp/accounts -ti $CONTAINER_NAME /bin/sh -c "mkdir $NODE_PREFIX$i"
-    docker exec -w /tmp/accounts -ti $CONTAINER_NAME /bin/sh -c "geth --datadir $NODE_PREFIX$i/ account new --password password.txt"
+    docker exec -w /tmp/accounts -ti $CONTAINER_NAME /bin/sh -c "geth --datadir $NODE_PREFIX$i/ account new docker exec -w /tmp/accounts -ti $CONTAINER_NAME /bin/sh -c "echo $DEFAULT_PW > /tmp/accounts/password.txt"
+
 done
 
 # Stop the container since we won't need it anymore
-docker stop $CONTAINER_NAME
+#docker stop $CONTAINER_NAME

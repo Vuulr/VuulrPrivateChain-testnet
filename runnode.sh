@@ -32,8 +32,7 @@ echo "Setting of variables for docker container"
 RPC_PORTMAP=
 RPC_ARG=
 if [[ ! -z $RPC_PORT ]]; then
-    RPC_ARG='--rpc --rpcaddr=0.0.0.0 --rpcapi=db,eth,net,web3,personal --rpccorsdomain http://localhost:8000'
-    #RPC_ARG='--rpc --rpcaddr=0.0.0.0 --rpcapi=db,eth,net,web3,personal --rpccorsdomain "*"'
+    RPC_ARG='--rpc --rpcaddr=0.0.0.0 --rpcapi=db,eth,net,web3,personal --rpccorsdomain "*"'
     RPC_PORTMAP="-p $RPC_PORT:8545"
 fi
 
@@ -62,9 +61,12 @@ docker run $DETACH_FLAG --name $CONTAINER_NAME \
     -v $DATA_ROOT:/root/.ethereum \
     -v $DATA_HASH:/root/.ethash \
     -v $(pwd)/genesis.json:/opt/genesis.json \
+    $MOUNT \
     $RPC_PORTMAP \
     $IMGNAME --rpc --bootnodes=$BOOTNODE_URL $RPC_ARG --cache=512 --verbosity=4 --maxpeers=3 --networkid=47271 ${@:2}
+#$IMGNAME --rpc --bootnodes=$BOOTNODE_URL $RPC_ARG --cache=512 --verbosity=4 --maxpeers=3 --gasprice --networkid=47271 ${@:2}
+echo $RPC_ARG
 
 docker exec -w /root -ti $CONTAINER_NAME /bin/sh -c "sed -i 's/\${WS_SERVER}/$WS_SERVER/g' /root/netstats.json"
-docker exec -w /root -ti $CONTAINER_NAME /bin/sh -c "sed -ie 's/\${NODE_NAME}/$NODE_NAME/g' /root/netstats.json"
+docker exec -w /root -ti $CONTAINER_NAME /bin/sh -c "sed -i 's/\${NODE_NAME}/$NODE_NAME/g' /root/netstats.json"
 docker exec -w /root -ti $CONTAINER_NAME /bin/sh -c "/usr/bin/pm2 start /root/netstats.json"
