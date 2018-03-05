@@ -7,6 +7,8 @@
 #
 # Runs a new node with name in command line parameter
 
+CHAIN_ID=47271
+
 IMGNAME="vuulrchain-node"
 NODE_NAME=$1
 NODE_NAME=${NODE_NAME:-"node1"}
@@ -60,7 +62,7 @@ docker run $DETACH_FLAG --name $CONTAINER_NAME \
     -v $(pwd)/genesis.json:/opt/genesis.json \
     $MOUNT \
     $RPC_PORTMAP \
-    $IMGNAME --rpc --bootnodes=$BOOTNODE_URL $RPC_ARG --cache=512 --verbosity=4 --maxpeers=3 --gasprice 1 --networkid=47271 ${@:2}
+    $IMGNAME --rpc --bootnodes=$BOOTNODE_URL $RPC_ARG --cache=512 --verbosity=4 --maxpeers=3 --gasprice 1 --networkid=$CHAIN_ID ${@:2}
 echo $RPC_ARG
 
 docker exec -w /root -ti $CONTAINER_NAME /bin/sh -c "sed -i 's/\${WS_SERVER}/$WS_SERVER/g' /root/netstats.json"
