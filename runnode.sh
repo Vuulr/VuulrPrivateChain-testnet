@@ -7,7 +7,6 @@
 #
 # Runs a new node with name in command line parameter
 
-#IMGNAME="ethereum/client-go:v1.7.3"
 IMGNAME="vuulrchain-node"
 NODE_NAME=$1
 NODE_NAME=${NODE_NAME:-"node1"}
@@ -18,8 +17,6 @@ WS_SERVER=${WS_SERVER:-"http:\/\/$NETSTATS_IP:3000"}
 DETACH_FLAG=${DETACH_FLAG:-"-d"}
 CONTAINER_NAME="vuulrchain-$NODE_NAME"
 NETWORK="vuulr-ethereum-chain"
-
-#RPC_PORT=8545
 
 DATA_ROOT=${DATA_ROOT:-"$(pwd)/.ether-$NODE_NAME"}
 DATA_HASH=${DATA_HASH:-"$(pwd)/.ethash"}
@@ -63,8 +60,7 @@ docker run $DETACH_FLAG --name $CONTAINER_NAME \
     -v $(pwd)/genesis.json:/opt/genesis.json \
     $MOUNT \
     $RPC_PORTMAP \
-    $IMGNAME --rpc --bootnodes=$BOOTNODE_URL $RPC_ARG --cache=512 --verbosity=4 --maxpeers=3 --networkid=47271 ${@:2}
-#$IMGNAME --rpc --bootnodes=$BOOTNODE_URL $RPC_ARG --cache=512 --verbosity=4 --maxpeers=3 --gasprice --networkid=47271 ${@:2}
+    $IMGNAME --rpc --bootnodes=$BOOTNODE_URL $RPC_ARG --cache=512 --verbosity=4 --maxpeers=3 --gasprice 1 --networkid=47271 ${@:2}
 echo $RPC_ARG
 
 docker exec -w /root -ti $CONTAINER_NAME /bin/sh -c "sed -i 's/\${WS_SERVER}/$WS_SERVER/g' /root/netstats.json"

@@ -5,14 +5,12 @@
 #
 # Chris Drumgoole | chris.drumgoole@vuulr.com | Vuulr.com
 #
-# Runs a new mining node
+# Runs a new (locally accessible) node with rpc port opened for docker
 
 NODE_NAME=$1
 NODE_NAME=${NODE_NAME:-"node1"}
 
-NETSTATS_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' vuulrchain-netstats)
-WS_SERVER=${WS_SERVER:-"http:\/\/$NETSTATS_IP:3000"}
-
+# Set RPC Port which will trigger the RPC settings in runnode.sh so we can access this node locally
 RPC_PORT="8545"
 
 #export WS_SERVER

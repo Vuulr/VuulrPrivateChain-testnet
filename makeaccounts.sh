@@ -36,8 +36,7 @@ for i in `seq 1 $NODE_COUNT`;
     echo "Making account $i..."
     docker exec -w /tmp/accounts -ti $CONTAINER_NAME /bin/sh -c "mkdir $NODE_PREFIX$i"
     docker exec -w /tmp/accounts -ti $CONTAINER_NAME /bin/sh -c "geth --datadir $NODE_PREFIX$i/ account new docker exec -w /tmp/accounts -ti $CONTAINER_NAME /bin/sh -c "echo $DEFAULT_PW > /tmp/accounts/password.txt"
-
 done
 
 # Stop the container since we won't need it anymore
-#docker stop $CONTAINER_NAME
+docker stop $CONTAINER_NAME
